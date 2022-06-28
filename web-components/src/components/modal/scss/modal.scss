@@ -49,6 +49,12 @@
     display: flex;
     flex-direction: column;
   }
+  &:focus-within {
+    .md-modal__content {
+      background-color: rgb(255, 255, 250);
+      transition: background-color 0.01s ease;
+    }
+  }
 
   &__flex-container {
     @include modal-flex-container;

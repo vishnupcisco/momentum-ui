@@ -228,6 +228,7 @@ export namespace PhoneInput {
             clear
             type="tel"
             value="${this.formattedValue}"
+            .autofocus=${true}
             .messageArr="${!this.isValid || this.showErrorMessage
               ? [
                   {

@@ -9,6 +9,10 @@
       box-shadow: none;
     }
 
+    &:focus-within {
+      box-shadow: none;
+    }
+
     .#{$modal__class} {
       &__header {
         flex-shrink: 0;

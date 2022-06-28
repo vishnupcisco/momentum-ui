@@ -78,7 +78,9 @@ export const FocusTrapMixin = <T extends AnyConstructor<FocusClass & FocusTrapCl
 
     private tryFocus(focusableElement: HTMLElement) {
       requestAnimationFrame(async () => {
+        console.log("focusableElement$", focusableElement);
         if (this.isElementFocused!(focusableElement)) {
+          console.log("inside")
           focusableElement.focus({ preventScroll: this.preventScroll });
         }
         if (typeof (focusableElement as LitElement).updateComplete !== "undefined") {

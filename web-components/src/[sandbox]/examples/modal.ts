@@ -19,6 +19,8 @@ export class ModalTemplateSandbox extends LitElement {
   @property({ type: Boolean }) isComplexModalOpen = false;
   @property({ type: Boolean }) isDialogOpen = false;
   @property({ type: Boolean }) isComplexTabsModal = false;
+  @property({ type: Boolean }) isStationLoginModal = false;
+  @property({ type: Boolean }) otherInput = false;
 
   @query(".dial-number") dialInput!: Input.ELEMENT;
 
@@ -54,6 +56,17 @@ export class ModalTemplateSandbox extends LitElement {
     this.isComplexTabsModal = false;
   }
 
+  private openStationLogin() {
+    this.isStationLoginModal = true;
+  }
+
+  private closeStationLogin() {
+    this.isStationLoginModal = false;
+  }
+  private handleFormatChange() {
+    this.otherInput = !this.otherInput;
+  }
+
   private handleInputChange = debounce(() => {
     if (this.dialInput) {
       const shadowInput = this.dialInput.shadowRoot!.querySelector("input");
@@ -68,10 +81,66 @@ export class ModalTemplateSandbox extends LitElement {
 
   render() {
     return html`
+      <md-button @click=${this.openStationLogin}>Open Station Login Modal</md-button>
       <md-button @click=${this.openModal}>Open Modal</md-button>
       <md-button @click=${this.openDialog}>Open Dialog</md-button>
       <md-button @click=${this.openComplexModal}>Open Complex Modal</md-button>
       <md-button @click=${this.openComplexTabsModal}>Open Complex Tabs Modal</md-button>
+
+      <md-modal ?show=${this.isStationLoginModal} closeBtnName="Submit This" @close-modal="${this.closeStationLogin}">
+        <md-form class="form-class" id="international-form">
+          <div class="international-checkbox-wrapper">
+            <md-checkbox
+              slot="checkbox"
+              .checked="${true}"
+              @checkbox-change=${this.handleFormatChange}
+              >International dialing format</md-checkbox
+            >
+          </div>
+          <input />
+          ${this.otherInput
+          ? html`<md-input
+          type="tel"
+          id="international"
+          name="international-value"
+          pill
+          value="88997755664"
+          countryCallingCode="+91"
+          numberPlaceholder="station Login"
+          .autofocus="${true}"
+          @phoneinput-keydown="${(e: CustomEvent) => {
+            e.stopImmediatePropagation();
+          }}"
+          @phoneinput-change="${(e: CustomEvent) => {
+            e.stopImmediatePropagation();
+          }}"
+          @phoneinput-blur="${(e: CustomEvent) => {
+            e.stopImmediatePropagation();
+          }}"
+        ></md-input>`
+        : html`<md-input
+        type="tel"
+        id="international"
+        name="international-value"
+        pill
+        value="88997755664"
+        countryCallingCode="+91"
+        numberPlaceholder="station Login"
+          .autofocus="${true}"
+        @phoneinput-keydown="${(e: CustomEvent) => {
+          e.stopImmediatePropagation();
+        }}"
+        @phoneinput-change="${(e: CustomEvent) => {
+          e.stopImmediatePropagation();
+        }}"
+        @phoneinput-blur="${(e: CustomEvent) => {
+          e.stopImmediatePropagation();
+        }}"
+      ></md-input>`}
+          
+        </md-form>
+      </md-modal>
+
       <md-modal
         htmlId="modal-1"
         ?show=${this.isModalOpen}
